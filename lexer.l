@@ -31,6 +31,7 @@ void yyerror(char *);
 
 [ \t\n]+	; // ignores whitespace
 .		yyerror("'.' is an invalid character");
+"//".*"\n"  ;
 
 %%
 
