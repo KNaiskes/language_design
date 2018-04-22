@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 #include "calc3.h"
 #include "grammar.tab.h"
 
 int ex(nodeType *p) {
+    char msg[100];
     if (!p) return 0;
     switch(p->type) {
     case typeCon:       return p->con.value;
