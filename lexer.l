@@ -28,6 +28,7 @@ void yyerror(char *);
 "else"	return ELSE;
 
 "print"	return PRINT;
+"func"	return FUNC;
 
 [ \t\n]+	; // ignores whitespace
 .		yyerror("'.' is an invalid character");

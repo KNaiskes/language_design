@@ -3,6 +3,8 @@ b = 20;
 c = a + b + (2*3);
 
 
+func(20);
+
 print(c); print(303);
 //print (c);
 

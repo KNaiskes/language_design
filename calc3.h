@@ -24,6 +24,7 @@ typedef struct nodeTypeTag {
         conNodeType con;        /* constants */
         idNodeType id;          /* identifiers */
         oprNodeType opr;        /* operators */
+	char name[20];
     };
 } nodeType;
 

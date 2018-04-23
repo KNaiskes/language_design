@@ -50,13 +50,14 @@ extern int yydebug;
     WHILE = 260,
     IF = 261,
     PRINT = 262,
-    IFX = 263,
-    ELSE = 264,
-    GE = 265,
-    LE = 266,
-    EQ = 267,
-    NE = 268,
-    UMINUS = 269
+    FUNC = 263,
+    IFX = 264,
+    ELSE = 265,
+    GE = 266,
+    LE = 267,
+    EQ = 268,
+    NE = 269,
+    UMINUS = 270
   };
 #endif
 
@@ -71,7 +72,7 @@ union YYSTYPE
     char sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
-#line 75 "grammar.tab.h" /* yacc.c:1909  */
+#line 76 "grammar.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
