@@ -1,15 +1,27 @@
-a = 10;
-b = 20;
-c = a + b + (2*3);
+//this is a commment...
+var a = 10;
+var b = 20;
+var c = a + b + (2*3); //expect 36
+var d = a + b;
+
+print(d);
+
+print(c);
+
+print(303);
+
+func(10); //read from file test.txt..
+
+//print(c);
+
+//expect 10
+if(a < b){
+	print(a);
+}
+else{
+	print(b);
+}
 
 
-func(10);
-
-print(c); print(303);
-//print (c);
-
-if(a < b)
-print(a);
-else
-print(b);
-
+//while(1)
+//	print(2);

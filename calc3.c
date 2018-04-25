@@ -39,12 +39,17 @@ int ex(nodeType *p) {
 }
 
 void readFrom() {
+
 	int c;
-				FILE *file;
-				file = fopen("test.txt", "r");
-				if(file) {
-					while((c = getc(file)) != EOF)
-						putchar(c);
-					fclose(file);
-				}
+
+	FILE *file;
+	file = fopen("test.txt", "r");
+	printf("---- Text from file ----\n");
+	if(file) {
+		while((c = getc(file)) != EOF){
+			putchar(c);
+		}
+		fclose(file);
+		}
+	printf("----End of file ----\n");
 }
