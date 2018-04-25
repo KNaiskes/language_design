@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "calc3.h"
+#include "ast.h"
 #include "grammar.tab.h"
 
 void readFrom();
