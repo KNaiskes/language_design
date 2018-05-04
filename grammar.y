@@ -37,7 +37,7 @@ int sym[26];                    /* symbol table */
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <nPtr> stmt expr stmt_list
+%type <nPtr> statement expression statements_bucket 
 
 %%
 
@@ -46,42 +46,42 @@ program:
         ;
 
 function:
-          function stmt         { ex($2); freeNode($2); }
-        | /* NULL */
+          function statement { ex($2); freeNode($2); }
+        | /* NULL - do nothing */
         ;
 
-stmt:
+statement:
           ';'                            { $$ = opr(';', 2, NULL, NULL); }
-        | expr ';'                       { $$ = $1; }
-        | PRINT '(' expr ')' ';'         { $$ = opr(PRINT, 1, $3); }
-	| FUNC '(' expr ')'  	 	 { $$ = opr(FUNC,1,$3); }
-        | VAR VARIABLE '=' expr ';'      { $$ = opr('=', 2, id($2), $4); }
-        | WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); }
-        | IF '(' expr ')''{' stmt %prec IFX '}'{ $$ = opr(IF, 2, $3, $6); }
-        | IF '(' expr ')' '{' stmt '}' ELSE '{' stmt '}' { $$ = opr(IF, 3, $3, $6, $10); }
-        | '{' stmt_list '}'              { $$ = $2; }
+        | expression ';'                       { $$ = $1; }
+        | PRINT '(' expression ')' ';'         { $$ = opr(PRINT, 1, $3); }
+	| FUNC '(' expression ')'  	 	 { $$ = opr(FUNC,1,$3); }
+        | VAR VARIABLE '=' expression ';'      { $$ = opr('=', 2, id($2), $4); }
+        | WHILE '(' expression ')' statement   { $$ = opr(WHILE, 2, $3, $5); }
+        | IF '(' expression ')''{' statement %prec IFX '}'{ $$ = opr(IF, 2, $3, $6); }
+        | IF '(' expression ')' '{' statement '}' ELSE '{' statement '}' { $$ = opr(IF, 3, $3, $6, $10); }
+        | '{' statements_bucket '}'              { $$ = $2; }
         ;
 
-stmt_list:
-          stmt                  { $$ = $1; }
-        | stmt_list stmt        { $$ = opr(';', 2, $1, $2); }
+statements_bucket:
+          statement { $$ = $1; }
+        | statements_bucket statement { $$ = opr(';', 2, $1, $2); }
         ;
 
-expr:
+expression:
           INTEGER               { $$ = con($1); }
         | VARIABLE              { $$ = id($1); }
-        | '-' expr %prec UMINUS { $$ = opr(UMINUS, 1, $2); }
-        | expr '+' expr         { $$ = opr('+', 2, $1, $3); }
-        | expr '-' expr         { $$ = opr('-', 2, $1, $3); }
-        | expr '*' expr         { $$ = opr('*', 2, $1, $3); }
-        | expr '/' expr         { $$ = opr('/', 2, $1, $3); }
-        | expr '<' expr         { $$ = opr('<', 2, $1, $3); }
-        | expr '>' expr         { $$ = opr('>', 2, $1, $3); }
-        | expr GE expr          { $$ = opr(GE, 2, $1, $3); }
-        | expr LE expr          { $$ = opr(LE, 2, $1, $3); }
-        | expr NE expr          { $$ = opr(NE, 2, $1, $3); }
-        | expr EQ expr          { $$ = opr(EQ, 2, $1, $3); }
-        | '(' expr ')'          { $$ = $2; }
+        | '-' expression %prec UMINUS { $$ = opr(UMINUS, 1, $2); }
+        | expression '+' expression         { $$ = opr('+', 2, $1, $3); }
+        | expression '-' expression         { $$ = opr('-', 2, $1, $3); }
+        | expression '*' expression         { $$ = opr('*', 2, $1, $3); }
+        | expression '/' expression         { $$ = opr('/', 2, $1, $3); }
+        | expression '<' expression         { $$ = opr('<', 2, $1, $3); }
+        | expression '>' expression         { $$ = opr('>', 2, $1, $3); }
+        | expression GE expression          { $$ = opr(GE, 2, $1, $3); }
+        | expression LE expression          { $$ = opr(LE, 2, $1, $3); }
+        | expression NE expression          { $$ = opr(NE, 2, $1, $3); }
+        | expression EQ expression          { $$ = opr(EQ, 2, $1, $3); }
+        | '(' expression ')'          { $$ = $2; }
         ;
 
 %%

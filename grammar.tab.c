@@ -477,8 +477,8 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "INTEGER", "VARIABLE", "WHILE", "IF",
   "PRINT", "FUNC", "VAR", "IFX", "ELSE", "GE", "LE", "EQ", "NE", "'>'",
   "'<'", "'+'", "'-'", "'*'", "'/'", "UMINUS", "';'", "'('", "')'", "'='",
-  "'{'", "'}'", "$accept", "program", "function", "stmt", "stmt_list",
-  "expr", YY_NULLPTR
+  "'{'", "'}'", "$accept", "program", "function", "statement",
+  "statements_bucket", "expression", YY_NULLPTR
 };
 #endif
 
