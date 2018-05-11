@@ -19,7 +19,9 @@ int ex(nodeType *p) {
                             ex(p->opr.op[2]);
                         return 0;
         case PRINT:     printf("%d\n", ex(p->opr.op[0])); return 0;
-	case FUNC:	if(ex(p->opr.op[0]) == 10){readFrom();}else printf("smth else\n"); return 0;
+	case READFILE:	if(ex(p->opr.op[0]) == 1) {
+				readFrom();
+			}
         case ';':       ex(p->opr.op[0]); return ex(p->opr.op[1]);
         case '=':       return sym[p->opr.op[0]->id.i] = ex(p->opr.op[1]);
         case UMINUS:    return -ex(p->opr.op[0]);

@@ -1,0 +1,5 @@
+var a = 0;
+print(a);
+
+var b = input(2);
+

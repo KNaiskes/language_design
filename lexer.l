@@ -28,7 +28,8 @@ void yyerror(char *);
 "else"	return ELSE;
 
 "print"	return PRINT;
-"func"	return FUNC;
+"readFile" return READFILE;
+
 "var"	return VAR;
 
 [ \t\n]+	; // ignores whitespace

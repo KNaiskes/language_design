@@ -28,7 +28,7 @@ int sym[26];                    /* symbol table */
 
 %token <iValue> INTEGER
 %token <sIndex> VARIABLE
-%token WHILE IF PRINT FUNC VAR
+%token WHILE IF PRINT READFILE VAR
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -51,14 +51,20 @@ function:
         ;
 
 statement:
-          ';'                            { $$ = opr(';', 2, NULL, NULL); }
-        | expression ';'                       { $$ = $1; }
-        | PRINT '(' expression ')' ';'         { $$ = opr(PRINT, 1, $3); }
-	| FUNC '(' expression ')'  	 	 { $$ = opr(FUNC,1,$3); }
-        | VAR VARIABLE '=' expression ';'      { $$ = opr('=', 2, id($2), $4); }
-        | WHILE '(' expression ')' statement   { $$ = opr(WHILE, 2, $3, $5); }
-        | IF '(' expression ')''{' statement %prec IFX '}'{ $$ = opr(IF, 2, $3, $6); }
-        | IF '(' expression ')' '{' statement '}' ELSE '{' statement '}' { $$ = opr(IF, 3, $3, $6, $10); }
+          ';'                            	{ $$ = opr(';', 2, NULL, NULL); }
+        | expression ';'                        { $$ = $1; }
+        | PRINT '(' expression ')' ';'          { $$ = opr(PRINT, 1, $3); }
+	| READFILE '(' expression ')'  	 	{ $$ = opr(READFILE,1,$3); }
+        | VAR VARIABLE '=' expression ';'       { $$ = opr('=', 2, id($2), $4); }
+        | WHILE '(' expression ')' '{' statement '}' { 
+		$$ = opr(WHILE, 2, $3, $6); 
+	}
+        | IF '(' expression ')''{' statement %prec IFX '}'{ 
+		$$ = opr(IF, 2, $3, $6); 
+	}
+        | IF '(' expression ')' '{' statement '}' ELSE '{' statement '}' { 
+		$$ = opr(IF, 3, $3, $6, $10); 
+	}
         | '{' statements_bucket '}'              { $$ = $2; }
         ;
 
@@ -68,15 +74,15 @@ statements_bucket:
         ;
 
 expression:
-          INTEGER               { $$ = con($1); }
-        | VARIABLE              { $$ = id($1); }
-        | '-' expression %prec UMINUS { $$ = opr(UMINUS, 1, $2); }
-        | expression '+' expression         { $$ = opr('+', 2, $1, $3); }
-        | expression '-' expression         { $$ = opr('-', 2, $1, $3); }
-        | expression '*' expression         { $$ = opr('*', 2, $1, $3); }
-        | expression '/' expression         { $$ = opr('/', 2, $1, $3); }
-        | expression '<' expression         { $$ = opr('<', 2, $1, $3); }
-        | expression '>' expression         { $$ = opr('>', 2, $1, $3); }
+          INTEGER               		{ $$ = con($1); }
+        | VARIABLE              		{ $$ = id($1); 	}
+        | '-' expression %prec UMINUS 		{ $$ = opr(UMINUS, 1, $2);  }
+        | expression '+' expression         	{ $$ = opr('+', 2, $1, $3); }
+        | expression '-' expression         	{ $$ = opr('-', 2, $1, $3); }
+        | expression '*' expression         	{ $$ = opr('*', 2, $1, $3); }
+        | expression '/' expression         	{ $$ = opr('/', 2, $1, $3); }
+        | expression '<' expression         	{ $$ = opr('<', 2, $1, $3); }
+        | expression '>' expression         	{ $$ = opr('>', 2, $1, $3); }
         | expression GE expression          { $$ = opr(GE, 2, $1, $3); }
         | expression LE expression          { $$ = opr(LE, 2, $1, $3); }
         | expression NE expression          { $$ = opr(NE, 2, $1, $3); }
@@ -149,10 +155,15 @@ void yyerror(char *s) {
     fprintf(stdout, "%s\n", s);
 }
 
-int main(void) {
- 	FILE *sourceCode = fopen("lang.kn", "r");
+int main(int argc, char *argv[]) {
+	
+
+	FILE *sourceCode = fopen(argv[1], "r");
+
 	if(!sourceCode) {
 		printf("Could not open file\n");
+		printf("\n");
+		printf("Enter an example as a parameter\n");
 		return -1;
 	}
 	yyin = sourceCode;

@@ -50,7 +50,7 @@ extern int yydebug;
     WHILE = 260,
     IF = 261,
     PRINT = 262,
-    FUNC = 263,
+    READFILE = 263,
     VAR = 264,
     IFX = 265,
     ELSE = 266,
