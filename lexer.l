@@ -30,7 +30,7 @@ void yyerror(char *);
 "print"	return PRINT;
 "readFile" return READFILE;
 
-"var"	return VAR;
+"Int"	return INT;
 
 [ \t\n]+	; // ignores whitespace
 .		yyerror("'.' is an invalid character");

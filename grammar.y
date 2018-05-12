@@ -28,7 +28,7 @@ int sym[26];                    /* symbol table */
 
 %token <iValue> INTEGER
 %token <sIndex> VARIABLE
-%token WHILE IF PRINT READFILE VAR
+%token WHILE IF PRINT READFILE INT
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -55,7 +55,7 @@ statement:
         | expression ';'                        { $$ = $1; }
         | PRINT '(' expression ')' ';'          { $$ = opr(PRINT, 1, $3); }
 	| READFILE '(' expression ')'  	 	{ $$ = opr(READFILE,1,$3); }
-        | VAR VARIABLE '=' expression ';'       { $$ = opr('=', 2, id($2), $4); }
+        | INT VARIABLE '=' expression ';'       { $$ = opr('=', 2, id($2), $4); }
         | WHILE '(' expression ')' '{' statement '}' { 
 		$$ = opr(WHILE, 2, $3, $6); 
 	}

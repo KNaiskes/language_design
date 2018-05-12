@@ -125,7 +125,7 @@ extern int yydebug;
     IF = 261,
     PRINT = 262,
     READFILE = 263,
-    VAR = 264,
+    INT = 264,
     IFX = 265,
     ELSE = 266,
     GE = 267,
@@ -475,7 +475,7 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "INTEGER", "VARIABLE", "WHILE", "IF",
-  "PRINT", "READFILE", "VAR", "IFX", "ELSE", "GE", "LE", "EQ", "NE", "'>'",
+  "PRINT", "READFILE", "INT", "IFX", "ELSE", "GE", "LE", "EQ", "NE", "'>'",
   "'<'", "'+'", "'-'", "'*'", "'/'", "UMINUS", "';'", "'('", "')'", "'='",
   "'{'", "'}'", "$accept", "program", "function", "statement",
   "statements_bucket", "expression", YY_NULLPTR

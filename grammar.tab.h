@@ -51,7 +51,7 @@ extern int yydebug;
     IF = 261,
     PRINT = 262,
     READFILE = 263,
-    VAR = 264,
+    INT = 264,
     IFX = 265,
     ELSE = 266,
     GE = 267,

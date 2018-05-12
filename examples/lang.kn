@@ -1,8 +1,8 @@
 //this is a commment...
-var a = 10;
-var b = 20;
-var c = a + b + (2*3); //expect 36
-var d = a + b;
+ Int a = 10;
+ Int b = 20;
+ Int c = a + b + (2*3); //expect 36
+ Int d = a + b;
 
 print(d);
 
@@ -22,10 +22,10 @@ else{
 	print(b);
 }
 
-var k = 0;
+Int k = 0;
 
 while(k < 5) {
-	var k = k + 1;
+	Int k = k + 1;
 }
 
 print(k);
