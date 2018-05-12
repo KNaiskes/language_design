@@ -10,7 +10,7 @@ print(c);
 
 print(303);
 
-readFile(0); //read from file test.txt..
+readFile(1); //read from file test.txt..
 
 //print(c);
 

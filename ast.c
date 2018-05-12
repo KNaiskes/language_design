@@ -41,6 +41,50 @@ int ex(nodeType *p) {
 }
 
 void readFrom() {
+	
+	
+    FILE * file;
+
+    char ch;
+    int characters, words, lines;
+
+    file = fopen("examples/test.txt", "r");
+
+
+    characters = words = lines = 0;
+    while ((ch = fgetc(file)) != EOF)
+    {
+        characters++;
+
+        /* Check new line */
+        if (ch == '\n' || ch == '\0')
+            lines++;
+
+        /* Check words */
+        if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\0')
+            words++;
+    }
+
+    /* Increment words and lines for last word */
+    if (characters > 0)
+    {
+        words++;
+        lines++;
+    }
+
+    /* Print file statistics */
+    printf("\n");
+    printf("Total characters = %d\n", characters - 1);
+    printf("Total words      = %d\n", words - 1);
+    printf("Total lines      = %d\n", lines - 1);
+
+
+    fclose(file);
+
+
+ 
+
+	/*
 
 	int c;
 
@@ -54,4 +98,5 @@ void readFrom() {
 		fclose(file);
 		}
 	printf("----End of file ----\n");
+	*/
 }
