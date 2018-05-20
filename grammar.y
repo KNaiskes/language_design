@@ -1,34 +1,38 @@
 %{
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include <stdarg.h>
 
 #include "ast.h"
 
 extern FILE *yyin;
 
-/* prototypes */
-nodeType *opr(int oper, int nops, ...);
-nodeType *id(int i);
-nodeType *con(int value);
-void freeNode(nodeType *p);
-int ex(nodeType *p);
+void delNode(makeType *p);
+makeType *operation(int myOperator, int nodeNum, ...);
+makeType *identifier(int i);
+makeType *constant(int value);
+int ex(makeType *p);
 int yylex(void);
 
 void yyerror(char *s);
-int sym[26];                    /* symbol table */
+int vars[26]; 
 %}
 
 %union {
-    int iValue;                 /* integer value */
-    char sIndex;                /* symbol table index */
-    nodeType *nPtr;             /* node pointer */
+    int makeInt; 
+    char makeChar; 
+    makeType *myType; 
 };
 
-%token <iValue> INTEGER
-%token <sIndex> VARIABLE
-%token WHILE IF PRINT READFILE INT
+%token <makeInt> INTEGER
+%token <makeChar> VARIABLE
+%token WHILE 
+%token IF 
+%token PRINT 
+%token WORDCOUNTER
+%token PRINTFILE
+%token INT
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -37,7 +41,7 @@ int sym[26];                    /* symbol table */
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <nPtr> statement expression statements_bucket 
+%type <myType> statement expression statements_bucket 
 
 %%
 
@@ -46,113 +50,112 @@ program:
         ;
 
 function:
-          function statement { ex($2); freeNode($2); }
-        | /* NULL - do nothing */
+          function statement { ex($2); delNode($2); }
+        | 
         ;
 
 statement:
-          ';'                            	{ $$ = opr(';', 2, NULL, NULL); }
+          ';'                            	{ $$ = operation(';', 2, NULL, NULL); }
         | expression ';'                        { $$ = $1; }
-        | PRINT '(' expression ')' ';'          { $$ = opr(PRINT, 1, $3); }
-	| READFILE '(' expression ')'  	 	{ $$ = opr(READFILE,1,$3); }
-        | INT VARIABLE '=' expression ';'       { $$ = opr('=', 2, id($2), $4); }
+        | PRINT '(' expression ')' ';'          { $$ = operation(PRINT, 1, $3); }
+	| WORDCOUNTER '(' expression ')'  	 { $$ = operation(WORDCOUNTER,1,$3); }
+	| PRINTFILE '(' expression ')' ';'	{ $$ = operation(PRINTFILE,1,$3);}
+        | INT VARIABLE '=' expression ';'       { $$ = operation('=', 2, identifier($2), $4); }
         | WHILE '(' expression ')' '{' statement '}' { 
-		$$ = opr(WHILE, 2, $3, $6); 
+		$$ = operation(WHILE, 2, $3, $6); 
 	}
         | IF '(' expression ')''{' statement %prec IFX '}'{ 
-		$$ = opr(IF, 2, $3, $6); 
+		$$ = operation(IF, 2, $3, $6); 
 	}
         | IF '(' expression ')' '{' statement '}' ELSE '{' statement '}' { 
-		$$ = opr(IF, 3, $3, $6, $10); 
+		$$ = operation(IF, 3, $3, $6, $10); 
 	}
         | '{' statements_bucket '}'              { $$ = $2; }
         ;
 
 statements_bucket:
           statement { $$ = $1; }
-        | statements_bucket statement { $$ = opr(';', 2, $1, $2); }
+        | statements_bucket statement { $$ = operation(';', 2, $1, $2); }
         ;
 
 expression:
-          INTEGER               		{ $$ = con($1); }
-        | VARIABLE              		{ $$ = id($1); 	}
-        | '-' expression %prec UMINUS 		{ $$ = opr(UMINUS, 1, $2);  }
-        | expression '+' expression         	{ $$ = opr('+', 2, $1, $3); }
-        | expression '-' expression         	{ $$ = opr('-', 2, $1, $3); }
-        | expression '*' expression         	{ $$ = opr('*', 2, $1, $3); }
-        | expression '/' expression         	{ $$ = opr('/', 2, $1, $3); }
-        | expression '<' expression         	{ $$ = opr('<', 2, $1, $3); }
-        | expression '>' expression         	{ $$ = opr('>', 2, $1, $3); }
-        | expression GE expression          { $$ = opr(GE, 2, $1, $3); }
-        | expression LE expression          { $$ = opr(LE, 2, $1, $3); }
-        | expression NE expression          { $$ = opr(NE, 2, $1, $3); }
-        | expression EQ expression          { $$ = opr(EQ, 2, $1, $3); }
-        | '(' expression ')'          { $$ = $2; }
+          INTEGER               		{ $$ = constant($1); }
+        | VARIABLE              		{ $$ = identifier($1); 	}
+        | '-' expression %prec UMINUS 		{ $$ = operation(UMINUS, 1, $2);  }
+        | expression '+' expression         	{ $$ = operation('+', 2, $1, $3); }
+        | expression '-' expression         	{ $$ = operation('-', 2, $1, $3); }
+        | expression '*' expression         	{ $$ = operation('*', 2, $1, $3); }
+        | expression '/' expression         	{ $$ = operation('/', 2, $1, $3); }
+        | expression '<' expression         	{ $$ = operation('<', 2, $1, $3); }
+        | expression '>' expression         	{ $$ = operation('>', 2, $1, $3); }
+        | expression GE expression          	{ $$ = operation(GE, 2, $1, $3); }
+        | expression LE expression          	{ $$ = operation(LE, 2, $1, $3); }
+        | expression NE expression          	{ $$ = operation(NE, 2, $1, $3); }
+        | expression EQ expression          	{ $$ = operation(EQ, 2, $1, $3); }
+        | '(' expression ')'          		{ $$ = $2; }
         ;
 
 %%
 
-nodeType *con(int value) {
-    nodeType *p;
+/* The implementation of the "tree", aftet checking the syntax
+it creates a node for each valid command */
 
-    /* allocate node */
-    if ((p = malloc(sizeof(nodeType))) == NULL)
-        yyerror("out of memory");
+makeType *constant(int value) {
+    makeType *p;
 
-    /* copy information */
+    if ((p = malloc(sizeof(makeType))) == NULL)
+        yyerror("Could not allocate memory");
+
     p->type = typeCon;
-    p->con.value = value;
+    p->constant.value = value;
 
     return p;
 }
 
-nodeType *id(int i) {
-    nodeType *p;
+makeType *identifier(int i) {
+    makeType *p;
 
-    /* allocate node */
-    if ((p = malloc(sizeof(nodeType))) == NULL)
-        yyerror("out of memory");
+    if ((p = malloc(sizeof(makeType))) == NULL)
+        yyerror("Could not allocate memory");
 
-    /* copy information */
     p->type = typeId;
-    p->id.i = i;
+    p->identifier.i = i;
 
     return p;
 }
 
-nodeType *opr(int oper, int nops, ...) {
+makeType *operation(int myOperator, int nodeNum, ...) {
     va_list ap;
-    nodeType *p;
+    makeType *p;
     int i;
 
-    /* allocate node, extending op array */
-    if ((p = malloc(sizeof(nodeType) + (nops-1) * sizeof(nodeType *))) == NULL)
-        yyerror("out of memory");
+    if ((p = malloc(sizeof(makeType) + (nodeNum-1) * sizeof(makeType *))) == NULL)
+        yyerror("Could not allocate memory");
 
-    /* copy information */
     p->type = typeOpr;
-    p->opr.oper = oper;
-    p->opr.nops = nops;
-    va_start(ap, nops);
-    for (i = 0; i < nops; i++)
-        p->opr.op[i] = va_arg(ap, nodeType*);
+    p->operation.myOperator = myOperator;
+    p->operation.nodeNum = nodeNum;
+    va_start(ap, nodeNum);
+    for (i = 0; i < nodeNum; i++)
+        p->operation.myOperand[i] = va_arg(ap, makeType*);
     va_end(ap);
     return p;
 }
 
-void freeNode(nodeType *p) {
+void delNode(makeType *p) {
     int i;
 
     if (!p) return;
     if (p->type == typeOpr) {
-        for (i = 0; i < p->opr.nops; i++)
-            freeNode(p->opr.op[i]);
+        for (i = 0; i < p->operation.nodeNum; i++)
+            delNode(p->operation.myOperand[i]);
     }
-    free (p);
+    //delete(p);
+    free(p);
 }
 
-void yyerror(char *s) {
-    fprintf(stdout, "%s\n", s);
+void yyerror(char *msg) {
+    fprintf(stdout, "%s\n", msg);
 }
 
 int main(int argc, char *argv[]) {
@@ -164,6 +167,7 @@ int main(int argc, char *argv[]) {
 		printf("Could not open file\n");
 		printf("\n");
 		printf("Enter an example as a parameter\n");
+		printf("For example: ./danise examples/exam1.txt\n");
 		return -1;
 	}
 	yyin = sourceCode;

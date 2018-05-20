@@ -10,13 +10,14 @@ void yyerror(char *);
 
 %%
 
-[a-z] { yylval.sIndex = *yytext - 'a'; return VARIABLE; }
+[a-z] { yylval.makeChar= *yytext - 'a'; return VARIABLE; }
 
-0     { yylval.iValue = atoi(yytext); return INTEGER;   }
+0     { yylval.makeInt= atoi(yytext); return INTEGER;   }
 
-[1-9][0-9]* { yylval.iValue = atoi(yytext); return INTEGER; }
+[1-9][0-9]* { yylval.makeInt= atoi(yytext); return INTEGER; }
 
 [-()<>=+*/;{}.] { return *yytext; }
+
 
 
 ">="	return GE;
@@ -28,13 +29,14 @@ void yyerror(char *);
 "else"	return ELSE;
 
 "print"	return PRINT;
-"readFile" return READFILE;
+"wordCounter" return WORDCOUNTER;
+"printFile" return PRINTFILE;
 
 "Int"	return INT;
 
 [ \t\n]+	; // ignores whitespace
 .		yyerror("'.' is an invalid character");
-"//".*"\n"  ;
+"//".*"\n"  ; //add C++ like comments
 
 %%
 

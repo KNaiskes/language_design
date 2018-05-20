@@ -1,32 +1,31 @@
-typedef enum { typeCon, typeId, typeOpr } nodeEnum;
+extern int vars[26];
 
-/* constants */
+typedef enum { 
+	typeCon, typeId, typeOpr 
+} nodeEnum;
+
 typedef struct {
-    int value;                  /* value of constant */
+    int value; 
 } conNodeType;
 
-/* identifiers */
 typedef struct {
-    int i;                      /* subscript to sym array */
+    int i; 
 } idNodeType;
 
-/* operators */
 typedef struct {
-    int oper;                   /* operator */
-    int nops;                   /* number of operands */
-    struct nodeTypeTag *op[1];  /* operands, extended at runtime */
+    int myOperator; 
+    int nodeNum; 
+    struct nodeTypeTag *myOperand[1];
 } oprNodeType;
 
 typedef struct nodeTypeTag {
-    nodeEnum type;              /* type of node */
+    nodeEnum type; 
 
     union {
-        conNodeType con;        /* constants */
-        idNodeType id;          /* identifiers */
-        oprNodeType opr;        /* operators */
-	char name[20];
+        conNodeType constant; 
+        idNodeType identifier; 
+        oprNodeType operation;
     };
-} nodeType;
+} makeType;
 
-extern int sym[26];
 

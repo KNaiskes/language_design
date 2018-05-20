@@ -10,7 +10,8 @@ print(c);
 
 print(303);
 
-readFile(1); //read from file test.txt..
+wordCounter(1); 
+printFile(1);
 
 //print(c);
 

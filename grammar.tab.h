@@ -50,15 +50,16 @@ extern int yydebug;
     WHILE = 260,
     IF = 261,
     PRINT = 262,
-    READFILE = 263,
-    INT = 264,
-    IFX = 265,
-    ELSE = 266,
-    GE = 267,
-    LE = 268,
-    EQ = 269,
-    NE = 270,
-    UMINUS = 271
+    WORDCOUNTER = 263,
+    PRINTFILE = 264,
+    INT = 265,
+    IFX = 266,
+    ELSE = 267,
+    GE = 268,
+    LE = 269,
+    EQ = 270,
+    NE = 271,
+    UMINUS = 272
   };
 #endif
 
@@ -67,13 +68,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "grammar.y" /* yacc.c:1909  */
+#line 22 "grammar.y" /* yacc.c:1909  */
 
-    int iValue;                 /* integer value */
-    char sIndex;                /* symbol table index */
-    nodeType *nPtr;             /* node pointer */
+    int makeInt; 
+    char makeChar; 
+    makeType *myType; 
 
-#line 77 "grammar.tab.h" /* yacc.c:1909  */
+#line 78 "grammar.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
