@@ -1,0 +1,11 @@
+//example4 - built-in functions
+
+//printFile function prints the containt of a file
+//in this case test.txt 
+
+printFile(1);
+
+//wordCounter function works just like UNIX "wc" command as it prints the number of
+//characters, words and lines of the file, which again for this example is test.txt
+
+wordCounter(1);

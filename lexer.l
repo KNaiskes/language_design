@@ -33,7 +33,6 @@ void yyerror(char *);
 "printFile" return PRINTFILE;
 
 "Int"	return INT;
-
 [ \t\n]+	; // ignores whitespace
 .		yyerror("'.' is an invalid character");
 "//".*"\n"  ; //add C++ like comments

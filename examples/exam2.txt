@@ -1,0 +1,23 @@
+// example2 - if & else statements
+
+Int c = 1;
+Int k = 40;
+
+//if will run but not else
+
+if(k > 20) {
+	print(k);
+}
+else {
+	print(c);
+}
+
+//else will run but not if
+
+if(c != 1){
+	print(2);
+}
+else{
+	print(1);
+}
+

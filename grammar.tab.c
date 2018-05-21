@@ -71,10 +71,10 @@
 
 #include "ast.h"
 
-extern FILE *yyin;
+extern FILE *yyin; //reads from file(s) instead of keyboard
 
 void delNode(makeType *p);
-makeType *operation(int myOperator, int nodeNum, ...);
+makeType *operation(int myOperator, int nodeNum, ...); //variadic function - ellipsis
 makeType *identifier(int i);
 makeType *constant(int value);
 int ex(makeType *p);

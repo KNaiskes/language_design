@@ -1,0 +1,33 @@
+//example5 a combination of all features
+
+Int a = 10;
+Int b = 20;
+Int i = 0;
+
+Int c = (a + b) / 2; //result 15
+
+//let's write some ugly code!
+//or in other words... nested ifs
+
+if(a < b) {
+	if(a < c) {
+		print(a);
+	}
+	else {
+		print(c);
+	}
+}
+else {
+	print(b);
+}
+
+while(i < 100) {
+	Int i = i + 1;
+}
+
+if(i == 100) {
+	printFile(1);
+}	
+
+
+wordCounter(1);

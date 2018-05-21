@@ -849,23 +849,23 @@ return INT;
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 37 "lexer.l"
+#line 36 "lexer.l"
 ; // ignores whitespace
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "lexer.l"
+#line 37 "lexer.l"
 yyerror("'.' is an invalid character");
 	YY_BREAK
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 39 "lexer.l"
+#line 38 "lexer.l"
 ; //add C++ like comments
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 41 "lexer.l"
+#line 40 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 872 "lex.yy.c"
@@ -1869,7 +1869,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 41 "lexer.l"
+#line 40 "lexer.l"
 
 
 

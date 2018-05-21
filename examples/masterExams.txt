@@ -1,0 +1,32 @@
+//this is a commment...
+ Int a = 10;
+ Int b = 20;
+ Int c = a + b + (2*3); //expect 36
+ Int d = a + b;
+
+print(d);
+
+print(c);
+
+print(303);
+
+wordCounter(1); 
+printFile(1);
+
+//print(c);
+
+//expect 10
+if(a < b){
+	print(a);
+}
+else{
+	print(b);
+}
+
+Int k = 0;
+
+while(k < 5) {
+	Int k = k + 1;
+}
+
+print(k);

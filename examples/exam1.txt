@@ -1,32 +1,9 @@
-//this is a commment...
- Int a = 10;
- Int b = 20;
- Int c = a + b + (2*3); //expect 36
- Int d = a + b;
+//example1 - simple math 
 
-print(d);
+Int a = 20;
+Int b = 30;
+Int c = 60;
 
-print(c);
+Int r = a + b * 2 + (c / 2);
 
-print(303);
-
-wordCounter(1); 
-printFile(1);
-
-//print(c);
-
-//expect 10
-if(a < b){
-	print(a);
-}
-else{
-	print(b);
-}
-
-Int k = 0;
-
-while(k < 5) {
-	Int k = k + 1;
-}
-
-print(k);
+print(r); //expected result: 110

@@ -6,10 +6,10 @@
 
 #include "ast.h"
 
-extern FILE *yyin;
+extern FILE *yyin; //reads from file(s) instead of keyboard
 
 void delNode(makeType *p);
-makeType *operation(int myOperator, int nodeNum, ...);
+makeType *operation(int myOperator, int nodeNum, ...); //variadic function - ellipsis
 makeType *identifier(int i);
 makeType *constant(int value);
 int ex(makeType *p);
@@ -58,7 +58,7 @@ statement:
           ';'                            	{ $$ = operation(';', 2, NULL, NULL); }
         | expression ';'                        { $$ = $1; }
         | PRINT '(' expression ')' ';'          { $$ = operation(PRINT, 1, $3); }
-	| WORDCOUNTER '(' expression ')'  	 { $$ = operation(WORDCOUNTER,1,$3); }
+	| WORDCOUNTER '(' expression ')'  	{ $$ = operation(WORDCOUNTER,1,$3); }
 	| PRINTFILE '(' expression ')' ';'	{ $$ = operation(PRINTFILE,1,$3);}
         | INT VARIABLE '=' expression ';'       { $$ = operation('=', 2, identifier($2), $4); }
         | WHILE '(' expression ')' '{' statement '}' { 
@@ -74,8 +74,8 @@ statement:
         ;
 
 statements_bucket:
-          statement { $$ = $1; }
-        | statements_bucket statement { $$ = operation(';', 2, $1, $2); }
+          statement 			{ $$ = $1; }
+        | statements_bucket statement 	{ $$ = operation(';', 2, $1, $2); }
         ;
 
 expression:

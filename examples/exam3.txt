@@ -1,0 +1,13 @@
+//example3 - while loop
+
+Int k = 50;
+Int i = 0;
+
+print(i); //expect 0
+
+
+while(i < k ){
+	Int i = i + 1;
+}
+
+print(i); //expect 50
