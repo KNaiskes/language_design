@@ -4,6 +4,6 @@ Int a = 20;
 Int b = 30;
 Int c = 60;
 
-Int r = a + b * 2 + (c / 2);
+Int r = a + b * 2 + (c / 2) - 1;
 
-print(r); //expected result: 110
+print(r); //expected result: 109

@@ -1,0 +1,29 @@
+*** Build instructions ***
+
+The tools that are required in order to compile the language are the following:
+flex, bison and gcc.
+
+Gcc is pre-installed in any GNU/Linux distribution, in order to install flex and
+bison on a Debian based distribution such as Ubuntu open a terminal and enter:
+
+sudo apt-get update
+sudo apt-get install flex bison
+
+After having all the dependencies installed, there are two methods to build it
+
+Method 1: Open a termnial, cd to language_desing implementation directory, such as
+cd path/language_design. When you are in the correct directoy, enter the command
+make and the language will be built automatimaticlly as a makefile is included.
+
+Method 2:Open a termnial, cd to language_desing implementation directory, such as
+cd path/language_design. When you are in the correct directoy, enter the following
+commands one after the other as shown:
+
+bison -d grammar.y
+flex -l lexer.l
+gcc grammar.tab.c lex.yy.c ast.c -o denise
+
+Note: lex.yy.c is created by flex
+      grammar.tab.h and grammar.tab.c are created by bison
+
+  
